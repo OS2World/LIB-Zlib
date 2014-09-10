@@ -1,0 +1,111 @@
+LIBRARY		Z	INITINSTANCE
+DESCRIPTION	"zlib data compression library"
+DATA		MULTIPLE NONSHARED
+EXPORTS
+
+; From adler32.o
+  "adler32" @1 RESIDENTNAME
+
+; From compress.o
+  "compress2" @2 RESIDENTNAME
+  "compress" @3 RESIDENTNAME
+
+; From crc32.o
+  "get_crc_table" @4 RESIDENTNAME
+  "crc32" @5 RESIDENTNAME
+
+; From deflate.o
+  "deflate_copyright" @6 RESIDENTNAME
+  "deflateInit_" @7 RESIDENTNAME
+  "deflateInit2_" @8 RESIDENTNAME
+  "deflateEnd" @9 RESIDENTNAME
+  "deflateReset" @10 RESIDENTNAME
+  "deflateSetDictionary" @11 RESIDENTNAME
+  "deflateParams" @12 RESIDENTNAME
+  "deflate" @13 RESIDENTNAME
+  "deflateCopy" @14 RESIDENTNAME
+
+; From gzio.o
+  "gzopen" @15 RESIDENTNAME
+  "gzdopen" @16 RESIDENTNAME
+  "gzsetparams" @17 RESIDENTNAME
+  "gzread" @18 RESIDENTNAME
+  "gzgetc" @19 RESIDENTNAME
+  "gzgets" @20 RESIDENTNAME
+  "gzwrite" @21 RESIDENTNAME
+  "gzprintf" @22 RESIDENTNAME
+  "gzputc" @23 RESIDENTNAME
+  "gzputs" @24 RESIDENTNAME
+  "gzflush" @25 RESIDENTNAME
+  "gzseek" @26  RESIDENTNAME
+  "gzrewind" @27 RESIDENTNAME
+  "gztell" @28 RESIDENTNAME
+  "gzeof" @29 RESIDENTNAME
+  "gzclose" @30 RESIDENTNAME
+  "gzerror" @31 RESIDENTNAME
+
+; From inffast.o
+  "inflate_fast" @41 RESIDENTNAME
+
+; From inflate.o
+  "inflateReset" @42 RESIDENTNAME
+  "inflateEnd" @43 RESIDENTNAME
+  "inflateInit2_" @44 RESIDENTNAME
+  "inflateInit_" @45 RESIDENTNAME
+  "inflate" @46 RESIDENTNAME
+  "inflateSetDictionary" @47 RESIDENTNAME
+  "inflateSync" @48 RESIDENTNAME
+  "inflateSyncPoint" @49 RESIDENTNAME
+
+; From inftrees.o
+  "inflate_copyright" @50 RESIDENTNAME
+
+; From trees.o
+  "_dist_code" @56 RESIDENTNAME
+  "_length_code" @57 RESIDENTNAME
+  "_tr_init" @58 RESIDENTNAME
+  "_tr_stored_block" @59 RESIDENTNAME
+  "_tr_align" @60 RESIDENTNAME
+  "_tr_flush_block" @61 RESIDENTNAME
+  "_tr_tally" @62 RESIDENTNAME
+
+; From uncompr.o
+  "uncompress" @63 RESIDENTNAME
+
+; From zutil.o
+  "z_errmsg" @64 RESIDENTNAME
+  "zlibVersion" @65 RESIDENTNAME
+  "zError" @66 RESIDENTNAME
+  "zcalloc" @67 RESIDENTNAME
+  "zcfree" @68 RESIDENTNAME
+
+; various new  imports that weren't in zlib 1.1.x
+  "zlibCompileFlags" @69 RESIDENTNAME
+  "gzungetc" @70 RESIDENTNAME
+  "deflateBound" @71 RESIDENTNAME
+  "deflatePrime" @72 RESIDENTNAME
+  "inflateCopy" @73 RESIDENTNAME
+  "inflateBack" @74 RESIDENTNAME
+  "inflateBackEnd" @75 RESIDENTNAME
+  "compressBound" @76 RESIDENTNAME
+  "gzclearerr" @77 RESIDENTNAME
+  "inflateBackInit_" @78 RESIDENTNAME
+ 
+  "adler32_combine" @79 RESIDENTNAME
+  "adler32_combine64" @80 RESIDENTNAME
+  "crc32_combine" @81 RESIDENTNAME
+  "crc32_combine64" @82 RESIDENTNAME
+  "deflateSetHeader" @83 RESIDENTNAME
+  "deflateTune" @84 RESIDENTNAME
+  "inflatePrime" @85 RESIDENTNAME
+  "inflateUndermine" @86 RESIDENTNAME
+  "gzdirect" @87 RESIDENTNAME
+  "gzopen64" @88 RESIDENTNAME
+  "gzseek64" @89 RESIDENTNAME
+  "gztell64" @90 RESIDENTNAME
+  "deflatePending" @91 RESIDENTNAME
+  "gzgetc_" @92 RESIDENTNAME
+  "inflateResetKeep" @94 RESIDENTNAME
+  "deflateResetKeep" @95 RESIDENTNAME
+  "gzclose_w" @96 RESIDENTNAME
+  "gzclose_r" @97 RESIDENTNAME

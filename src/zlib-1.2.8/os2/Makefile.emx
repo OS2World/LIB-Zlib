@@ -1,0 +1,90 @@
+prefix = e:/usr/local/zlib
+
+INCDIR = $(prefix)/include
+LIBDIR = ${prefix}/lib
+DLLDIR = ${prefix}/bin
+BINDIR = ${prefix}/bin
+
+STATICLIB = z_s.a
+STATICLIB_OMF = z_s.lib
+SHAREDLIB = z.dll
+IMPLIB = z.a
+IMPLIB_OMF = z.lib
+
+THREADING= -Zmt
+
+CC = gcc
+
+CFLAGS= -O3 $(THREADING) -I.
+
+LD = $(CC)
+LDFLAGS = -L. -Zbin-files $(THREADING) -Zcrtdll
+
+AR = ar
+ARFLAGS = crs
+
+EXE = .exe
+
+VER = 1.2.5
+
+SHELL = sh
+
+OBJS = adler32.o compress.o crc32.o deflate.o gzclose.o gzlib.o gzread.o \
+	gzwrite.o infback.o inffast.o inflate.o inftrees.o trees.o uncompr.o \
+	zutil.o 
+
+all: $(STATICLIB) $(STATICLIB_OMF) $(IMPLIB) $(IMPLIB_OMF) $(SHAREDLIB) example$(EXE) minigzip$(EXE) example_d$(EXE) minigzip_d$(EXE)
+#all: example$(EXE) minigzip$(EXE) example_d$(EXE) minigzip$(EXE)
+
+check: test
+test: all
+	@LD_LIBRARY_PATH=.:$(LD_LIBRARY_PATH) ; export LD_LIBRARY_PATH; \
+	echo hello world | ./minigzip.exe | ./minigzip.exe -d || \
+	  echo '		*** minigzip test FAILED ***' ; \
+	if ./example.exe; then \
+	  echo '		*** zlib test OK ***'; \
+	else \
+	  echo '		*** zlib test FAILED ***'; \
+	fi
+
+$(STATICLIB): $(OBJS)
+	$(AR) $(ARFLAGS) $@ $(OBJS)
+
+$(STATICLIB_OMF): $(STATICLIB)
+	emxomf -o z_s.lib z_s.a
+
+$(IMPLIB):
+	emximp -o z.a os2/zos2.def
+
+$(IMPLIB_OMF):
+	emximp -o z.lib os2/zos2.def
+
+$(SHAREDLIB): $(OBJS)
+	emxomf $(OBJS)
+	$(CC) $(LDFLAGS) -Zdll -o $(SHAREDLIB) $(OBJS:.o=.obj) os2/zos2.def -Zomf
+
+example$(EXE): test/example.o $(STATICLIB)
+	$(CC) $(CFLAGS) -o $@ test/example.o $(LDFLAGS) $(STATICLIB)
+
+
+minigzip$(EXE): test/minigzip.o $(STATICLIB)
+	$(CC) $(CFLAGS) -o $@ test/minigzip.o $(LDFLAGS) $(STATICLIB)
+
+example_d$(EXE): test/example.o $(SHAREDLIB)
+	$(LD) $(LDFLAGS) -o $@ test/example.o $(LDFLAGS) $(IMPLIB)
+
+minigzip_d$(EXE): test/minigzip.o $(SHAREDLIB)
+	$(LD) $(LDFLAGS) -o $@ test/minigzip.o $(LDFLAGS) $(IMPLIB)
+
+install: $(STATICLIB) $(STATICLIB_OMF) $(IMPLIB) $(IMPLIB_OMF) $(SHAREDLIB) minigzip$(EXE)
+	@install -d $(INCDIR)
+	@install -d $(LIBDIR)
+	@install -d $(DLLDIR)
+	@install -d $(BINDIR)
+	install -c zlib.h zconf.h $(INCDIR)
+	install -c $(STATICLIB) $(STATICLIB_OMF) $(IMPLIB) $(IMPLIB_OMF) $(LIBDIR)
+	install -c $(SHAREDLIB) $(DLLDIR)
+	install -c minigzip_d.exe $(BINDIR)/minigzip.exe
+
+clean:
+	rm -f *.o *.obj test/*.o *~ example.exe minigzip.exe example_d.exe minigzip_d.exe *.a *.lib *.dll foo.gz
